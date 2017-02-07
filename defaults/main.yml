@@ -9,9 +9,9 @@ jira_uid: ~
 jira_user: ~
 
 # optional variables with default
-jira_archive: "atlassian-jira-core-7.3.0.tar.gz"
+jira_archive: "atlassian-jira-core-7.3.1.tar.gz"
 jira_catalina: "/usr/share/jira"
-jira_checksum: "sha256:07b47225be858eb7ad09f3b434d4865096ab10df92b0499fb234ef270500caac"
+jira_checksum: "sha256:21fa728699f427450eeee5df81dafb5fada6615e5b330fccbf083ac1789bf75d"
 jira_connector_port: "8080"
 jira_context_path: ~
 jira_home: "/var/lib/jira"
