@@ -1,5 +1,9 @@
 # {{ ansible_managed }}
 
+# If the limit of files that Jira can open is too low, it will be set to this value.
+#
+MIN_NOFILES_LIMIT=16384
+
 #
 # One way to set the JIRA HOME path is here via this variable.  Simply uncomment it and set a valid path like /jira/home.  You can of course set it outside in the command terminal.  That will also work.
 #
@@ -9,6 +13,14 @@ JIRA_HOME="{{ jira_home }}"
 #  Occasionally Atlassian Support may recommend that you set some specific JVM arguments.  You can use this variable below to do that.
 #
 JVM_SUPPORT_RECOMMENDED_ARGS="{{ jira_jvm_support_recommended_args }}"
+
+#
+#  You can use variable below to modify garbage collector settings.
+#  For Java 8 we recommend default settings
+#  For Java 11 and relatively small heaps we recommend: -XX:+UseParallelGC
+#  For Java 11 and larger heaps we recommend: -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent
+#
+JVM_GC_ARGS=""
 
 #
 # The following 2 settings control the minimum and maximum given to the JIRA Java virtual machine.  In larger JIRA instances, the maximum amount will need to be increased.
@@ -45,6 +57,10 @@ JVM_REQUIRED_ARGS='-Djava.awt.headless=true -Datlassian.standalone=JIRA -Dorg.ap
 # which could make it harder for support to diagnose a problem.
 #-----------------------------------------------------------------------------------
 JVM_EXTRA_ARGS="-XX:-OmitStackTraceInFastThrow -Djava.locale.providers=COMPAT"
+
+CURRENT_NOFILES_LIMIT=$( ulimit -Hn )
+ulimit -Sn $CURRENT_NOFILES_LIMIT
+ulimit -n $(( CURRENT_NOFILES_LIMIT > MIN_NOFILES_LIMIT  ? CURRENT_NOFILES_LIMIT : MIN_NOFILES_LIMIT ))
 
 PRGDIR=`dirname "$0"`
 cat "${PRGDIR}"/jirabanner.txt
