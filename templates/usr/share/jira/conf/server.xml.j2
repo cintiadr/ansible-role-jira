@@ -13,6 +13,7 @@
                 <Context path="{{ jira_context_path or '' }}" docBase="${catalina.home}/atlassian-jira" reloadable="false" useHttpOnly="true">
                     <Resource name="UserTransaction" auth="Container" type="javax.transaction.UserTransaction" factory="org.objectweb.jotm.UserTransactionFactory" jotm.timeout="60"/>
                     <Manager pathname=""/>
+                    <JarScanner scanManifest="false"/>
                 </Context>
             </Host>
             <Valve className="org.apache.catalina.valves.AccessLogValve" resolveHosts="false" pattern="%a %{jira.request.id}r %{jira.request.username}r %t &quot;%m %U%q %H&quot; %s %b %D &quot;%{Referer}i&quot; &quot;%{User-Agent}i&quot; &quot;%{jira.request.assession.id}r&quot;"/>
